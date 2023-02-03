@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Songs;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class SongsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            //Se llena con información falsa con Faker
+            'title' => $this->faker->company,
+            'autor' => $this->faker->name,
+            'album' => $this->faker->text(30),
         ];
     }
 }
