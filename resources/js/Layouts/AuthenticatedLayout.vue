@@ -123,6 +123,12 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                     </div>
 
+                                        <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('songs.index')" :active="route().current('songs.index')">
+                            Songs
+                        </ResponsiveNavLink>
+                    </div>
+
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
                         <div class="px-4">
