@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Songs;
 use App\Http\Requests\StoreSongsRequest;
 use App\Http\Requests\UpdateSongsRequest;
+use Inertia\Inertia;
 
 class SongsController extends Controller
 {
@@ -15,7 +16,9 @@ class SongsController extends Controller
      */
     public function index()
     {
-        //
+        //Se traen todos los registros de DB y se muestran en el index
+        $songs = Songs::all();
+        return Inertia::render('Songs/Index',['songs' => $songs]);
     }
 
     /**
@@ -36,7 +39,16 @@ class SongsController extends Controller
      */
     public function store(StoreSongsRequest $request)
     {
-        //
+        //Validamos datos requeridos
+        $request-> validate(([
+            'title' => 'required',
+            'autor' => 'required',
+            'album' => 'required'
+        ]));
+        //Creamos el registro con todos los datos
+        $song = new Songs($request->input());
+        $song->save();
+        return redirect('song');
     }
 
     /**
@@ -68,9 +80,12 @@ class SongsController extends Controller
      * @param  \App\Models\Songs  $songs
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSongsRequest $request, Songs $songs)
+    public function update(UpdateSongsRequest $request, Songs $songs, $id)
     {
-        //
+
+        $song = Songs::find($id);
+        $song->fill($request->input())->saveOrFail();
+        return redirect('song');
     }
 
     /**
@@ -79,8 +94,10 @@ class SongsController extends Controller
      * @param  \App\Models\Songs  $songs
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Songs $songs)
+    public function destroy($id)
     {
-        //
+        $song = Songs::find($id);
+        $song->delete();
+        return redirect('song');
     }
 }
